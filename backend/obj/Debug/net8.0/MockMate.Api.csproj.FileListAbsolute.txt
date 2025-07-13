@@ -195,3 +195,4 @@ C:\Users\Ryder\Documents\Projects\msa-phase2-project\backend\obj\Debug\net8.0\re
 C:\Users\Ryder\Documents\Projects\msa-phase2-project\backend\obj\Debug\net8.0\MockMate.Api.pdb
 C:\Users\Ryder\Documents\Projects\msa-phase2-project\backend\obj\Debug\net8.0\MockMate.Api.genruntimeconfig.cache
 C:\Users\Ryder\Documents\Projects\msa-phase2-project\backend\obj\Debug\net8.0\ref\MockMate.Api.dll
+C:\Users\Ryder\Documents\Projects\msa-phase2-project\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
