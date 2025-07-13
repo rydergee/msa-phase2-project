@@ -29,3 +29,32 @@ content.pdf
 .github/prompts/update_specification.prompt.md
 spec/spec-app-mockmate-behavioral-interview-platform.md
 plan/feature-mockmate-platform-1.md
+
+# Database files - don't commit user data
+*.db
+*.sqlite
+*.sqlite3
+backend/mockmate.db
+backend/bin/
+backend/obj/
+backend/bin/**
+backend/obj/**
+
+# Frontend development files
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# IDE files
+.vs/
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

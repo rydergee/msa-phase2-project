@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 import type { AuthResponse, LoginRequest, RegisterRequest, User, UpdateProfileRequest, ChangePasswordRequest } from '../types/auth';
 
 // API base configuration
-const API_BASE_URL = 'http://localhost:5000/api'; // Update this to match your backend port
+const API_BASE_URL = 'http://localhost:5094/api'; // Match backend launchSettings.json
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
