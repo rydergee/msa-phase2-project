@@ -76,12 +76,12 @@ public class AuthService : IAuthService
 
         if (user == null || !user.IsActive)
         {
-            throw new UnauthorizedAccessException("Invalid email or password");
+            throw new MockMateUnauthorizedAccessException("Invalid email or password");
         }
 
         if (!_passwordService.VerifyPassword(request.Password, user.PasswordHash))
         {
-            throw new UnauthorizedAccessException("Invalid email or password");
+            throw new MockMateUnauthorizedAccessException("Invalid email or password");
         }
 
         _logger.LogInformation("User logged in: {Email}", user.Email);
@@ -145,7 +145,7 @@ public class AuthService : IAuthService
 
         if (!_passwordService.VerifyPassword(request.CurrentPassword, user.PasswordHash))
         {
-            throw new UnauthorizedAccessException("Current password is incorrect");
+            throw new MockMateUnauthorizedAccessException("Current password is incorrect");
         }
 
         user.PasswordHash = _passwordService.HashPassword(request.NewPassword);
@@ -205,13 +205,13 @@ public class AuthService : IAuthService
     }
 }
 
-// Custom exception classes
+// Custom exception classes for MockMate
 public class NotFoundException : Exception
 {
     public NotFoundException(string message) : base(message) { }
 }
 
-public class UnauthorizedAccessException : Exception
+public class MockMateUnauthorizedAccessException : Exception
 {
-    public UnauthorizedAccessException(string message) : base(message) { }
+    public MockMateUnauthorizedAccessException(string message) : base(message) { }
 }

@@ -50,9 +50,48 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+// Add controllers
+builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo 
+    { 
+        Title = "MockMate API", 
+        Version = "v1",
+        Description = "Behavioral Interview Preparation Platform API"
+    });
+    
+    // Add JWT authentication to Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -102,6 +141,38 @@ app.MapGet("/api/health/auth", () =>
     });
 });
 
+// API documentation endpoint
+app.MapGet("/api/docs", () =>
+{
+    return Results.Ok(new
+    {
+        api = "MockMate API",
+        version = "1.0",
+        endpoints = new
+        {
+            authentication = new[]
+            {
+                "POST /api/auth/register - Register new user",
+                "POST /api/auth/login - Login user",
+                "GET /api/auth/profile - Get user profile (requires auth)",
+                "PUT /api/auth/profile - Update user profile (requires auth)",
+                "POST /api/auth/change-password - Change password (requires auth)",
+                "GET /api/auth/validate - Validate token (requires auth)",
+                "POST /api/auth/logout - Logout user (requires auth)"
+            },
+            health = new[]
+            {
+                "GET /api/health/database - Database connectivity check",
+                "GET /api/health/auth - Authentication service check",
+                "GET /api/docs - This documentation"
+            }
+        },
+        swagger = "/swagger",
+        database = "SQLite",
+        authentication = "JWT Bearer Token"
+    });
+});
+
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -121,6 +192,9 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+// Map controllers
+app.MapControllers();
 
 app.Run();
 
