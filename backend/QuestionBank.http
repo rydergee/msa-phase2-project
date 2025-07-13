@@ -1,0 +1,217 @@
+### Question Bank API Tests - Behavioral Interview Questions
+
+# The Question Bank provides a curated collection of behavioral interview questions
+# organized by categories, difficulty levels, and tags for effective practice.
+
+# Variables for testing
+@host = http://localhost:5000
+@token = your_jwt_token_here
+
+###
+
+# First, let's login to get a JWT token (if needed for protected endpoints)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Test123!"
+}
+
+###
+
+# Get all questions (with pagination)
+GET {{host}}/api/questions?page=1&pageSize=10
+
+###
+
+# Get questions filtered by category
+GET {{host}}/api/questions?category=Leadership&page=1&pageSize=5
+
+###
+
+# Get questions filtered by difficulty
+GET {{host}}/api/questions?difficulty=Intermediate&page=1&pageSize=5
+
+###
+
+# Get questions filtered by tags
+GET {{host}}/api/questions?tags=teamwork,communication&page=1&pageSize=5
+
+###
+
+# Get questions with multiple filters
+GET {{host}}/api/questions?category=Problem Solving&difficulty=Advanced&page=1&pageSize=5
+
+###
+
+# Get a specific question by ID
+GET {{host}}/api/questions/1
+
+###
+
+# Search questions by text content
+GET {{host}}/api/questions/search?query=teamwork&page=1&pageSize=10
+
+###
+
+# Search for conflict resolution questions
+GET {{host}}/api/questions/search?query=conflict&page=1&pageSize=5
+
+###
+
+# Get random questions for practice (no specific filters)
+GET {{host}}/api/questions/random?count=5
+
+###
+
+# Get random leadership questions
+GET {{host}}/api/questions/random?count=3&category=Leadership
+
+###
+
+# Get random intermediate difficulty questions
+GET {{host}}/api/questions/random?count=3&difficulty=Intermediate
+
+###
+
+# Get all question categories
+GET {{host}}/api/questions/categories
+
+###
+
+# Get questions by specific category
+GET {{host}}/api/questions/categories/Communication?page=1&pageSize=10
+
+###
+
+# Get questions statistics
+GET {{host}}/api/questions/stats
+
+###
+
+# ===== INTERVIEW SESSIONS API (Requires Authentication) =====
+
+# Get all practice sessions for authenticated user
+GET {{host}}/api/interviewsessions
+Authorization: Bearer {{token}}
+
+###
+
+# Start a new practice session with a question
+POST {{host}}/api/interviewsessions/start
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "questionId": 1
+}
+
+###
+
+# Submit an answer for a practice session (replace {sessionId} with actual ID)
+POST {{host}}/api/interviewsessions/1/answer
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "answer": "In my previous role as a software developer, I was working on a team project where we had a tight deadline to deliver a critical feature. One of my teammates was consistently missing deadlines and not communicating effectively about blockers.\n\nSituation: We were developing an authentication system for our application with only two weeks before the product demo. My teammate, who was responsible for the frontend integration, was falling behind and not responding to messages.\n\nTask: I needed to ensure the project stayed on track while maintaining team harmony and helping my teammate succeed.\n\nAction: I first had a private conversation with my teammate to understand if there were any personal or technical challenges. I discovered they were struggling with a specific technology and felt embarrassed to ask for help. I offered to pair program with them and provided resources for learning. I also communicated with our project manager about the situation and suggested reallocating some tasks to ensure we met the deadline.\n\nResult: We successfully delivered the authentication system on time. My teammate improved their skills and became more confident in asking for help. The team's communication improved overall, and we established regular check-ins to prevent similar issues in the future.",
+  "responseTime": "00:03:45"
+}
+
+###
+
+# Rate a practice session (replace {sessionId} with actual ID)
+POST {{host}}/api/interviewsessions/1/rate
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rating": 4,
+  "notes": "Good use of STAR method. Could improve on providing more specific metrics about the outcome. The technical details were well explained."
+}
+
+###
+
+# Get a specific practice session
+GET {{host}}/api/interviewsessions/1
+Authorization: Bearer {{token}}
+
+###
+
+# Get practice statistics for the authenticated user
+GET {{host}}/api/interviewsessions/stats
+Authorization: Bearer {{token}}
+
+###
+
+# Start another practice session with a different question
+POST {{host}}/api/interviewsessions/start
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "questionId": 5
+}
+
+###
+
+# Submit answer for the second practice session
+POST {{host}}/api/interviewsessions/2/answer
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "answer": "During my time as a junior developer, I was tasked with learning React within two weeks to contribute to an urgent project.\n\nSituation: Our company had landed a major client who needed a React-based dashboard delivered quickly. The entire team was experienced with React except for me - I had only worked with vanilla JavaScript and jQuery.\n\nTask: I needed to become proficient enough in React to contribute meaningfully to the project within the tight timeline.\n\nAction: I created a structured learning plan that included official React documentation, online tutorials, and building small practice projects. I dedicated 2-3 hours each morning before work and 2 hours each evening to learning. I also asked experienced teammates for code reviews on my practice projects and set up pair programming sessions twice a week. I focused on understanding core concepts like components, state management, and props rather than trying to learn everything.\n\nResult: Within two weeks, I was able to contribute to the project by building several components and fixing bugs. The project was delivered on time, and the client was satisfied with the results. I continued to improve my React skills and eventually became one of the go-to React developers on the team. This experience taught me how to learn new technologies efficiently under pressure.",
+  "responseTime": "00:04:12"
+}
+
+###
+
+# Rate the second practice session
+POST {{host}}/api/interviewsessions/2/rate
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "notes": "Excellent STAR structure with specific timeline and learning strategy. Great detail on actions taken and measurable results. Shows good self-directed learning abilities."
+}
+
+###
+
+# Delete a practice session (replace {sessionId} with actual ID)
+DELETE {{host}}/api/interviewsessions/1
+Authorization: Bearer {{token}}
+
+###
+
+# ===== SAMPLE FILTERING AND SEARCH SCENARIOS =====
+
+# Find all questions related to leadership
+GET {{host}}/api/questions/search?query=leadership
+
+###
+
+# Get beginner-level communication questions
+GET {{host}}/api/questions?category=Communication&difficulty=Beginner
+
+###
+
+# Find questions about handling failure or mistakes
+GET {{host}}/api/questions/search?query=failure
+
+###
+
+# Get advanced problem-solving questions
+GET {{host}}/api/questions?category=Problem Solving&difficulty=Advanced
+
+###
+
+# Search for questions about time management
+GET {{host}}/api/questions/search?query=deadline
+
+###
+
+# Get random questions for a quick practice session
+GET {{host}}/api/questions/random?count=3
