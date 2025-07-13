@@ -7,6 +7,8 @@ using MockMate.Api.Extensions;
 using MockMate.Api.Models.Configuration;
 using MockMate.Api.Services;
 using MockMate.Api.Services.Interfaces;
+using MockMate.Api.Repositories;
+using MockMate.Api.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Register application services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
+
+// Register repositories
+builder.Services.AddScoped<IJournalEntryRepository, JournalEntryRepository>();
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>();
@@ -98,7 +103,23 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://localhost:5173") // Vite dev server
+        var allowedOrigins = new List<string>
+        {
+            "http://localhost:5173",
+            "https://localhost:5173", // Vite dev server
+        };
+
+        // Add Cloud Run origins
+        var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
+        if (!string.IsNullOrEmpty(frontendUrl))
+        {
+            allowedOrigins.Add(frontendUrl);
+        }
+        
+        // Default Cloud Run frontend URL pattern
+        allowedOrigins.Add("https://mockmate-frontend-1028095172405.us-central1.run.app");
+
+        policy.WithOrigins(allowedOrigins.ToArray())
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
