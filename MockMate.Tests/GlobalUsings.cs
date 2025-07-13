@@ -1,0 +1,16 @@
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using FluentAssertions;
+global using Moq;
+global using Microsoft.EntityFrameworkCore;
+global using MockMate.Api.Data;
+global using MockMate.Api.Models;
+global using MockMate.Api.Services;
+global using MockMate.Api.Services.Interfaces;
+global using MockMate.Api.Controllers;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Options;
+global using MockMate.Api.Models.Configuration;
+global using MockMate.Api.Models.Auth;
+global using Microsoft.AspNetCore.Http;
+global using System.Security.Claims;
+global using Microsoft.Extensions.Logging;
