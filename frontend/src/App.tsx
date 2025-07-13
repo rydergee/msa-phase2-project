@@ -34,33 +34,52 @@ function Navigation() {
   };
 
   return (
-    <nav className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold hover:text-blue-200">
-          MockMate
-        </Link>
-        <div className="space-x-4">
-          <Link to="/" className="hover:text-blue-200">Home</Link>
-          
-          {isAuthenticated ? (
-            <>
-              <Link to="/dashboard" className="hover:text-blue-200">Dashboard</Link>
-              <Link to="/journal" className="hover:text-blue-200">Journal</Link>
-              <Link to="/profile" className="hover:text-blue-200">Profile</Link>
-              <span className="text-blue-200">Welcome, {user?.firstName}!</span>
-              <button
-                onClick={handleLogout}
-                className="hover:text-blue-200 bg-transparent border-none cursor-pointer"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="hover:text-blue-200">Login</Link>
-              <Link to="/register" className="hover:text-blue-200">Register</Link>
-            </>
-          )}
+    <nav className="bg-gradient-to-r from-orange-200 to-orange-300 shadow-lg border-b border-orange-200">
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="text-2xl font-bold text-orange-800 hover:text-orange-900 transition-colors duration-200">
+            MockMate
+          </Link>
+          <div className="flex items-center space-x-6">
+            <Link to="/" className="text-orange-700 hover:text-orange-900 font-medium transition-colors duration-200">
+              Home
+            </Link>
+            
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" className="text-orange-700 hover:text-orange-900 font-medium transition-colors duration-200">
+                  Dashboard
+                </Link>
+                <Link to="/journal" className="text-orange-700 hover:text-orange-900 font-medium transition-colors duration-200">
+                  Journal
+                </Link>
+                <Link to="/profile" className="text-orange-700 hover:text-orange-900 font-medium transition-colors duration-200">
+                  Profile
+                </Link>
+                <div className="flex items-center space-x-4">
+                  <span className="text-orange-800 font-medium">Welcome, {user?.firstName}!</span>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-orange-100 hover:bg-orange-200 text-orange-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200 border border-orange-300"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="text-orange-700 hover:text-orange-900 font-medium transition-colors duration-200">
+                  Login
+                </Link>
+                <Link 
+                  to="/register" 
+                  className="bg-orange-400 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 shadow-md"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>
@@ -70,9 +89,9 @@ function Navigation() {
 // Simple layout component
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
       <Navigation />
-      <main className="container mx-auto py-8 px-4">
+      <main className="container mx-auto py-8 px-6">
         {children}
       </main>
     </div>

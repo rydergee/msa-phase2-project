@@ -18,14 +18,14 @@ const JournalEntryCard: React.FC<JournalEntryCardProps> = ({ entry, onDelete }) 
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      'Software Development': 'bg-blue-100 text-blue-800',
-      'Leadership': 'bg-purple-100 text-purple-800',
-      'Communication': 'bg-green-100 text-green-800',
-      'Problem Solving': 'bg-yellow-100 text-yellow-800',
-      'Teamwork': 'bg-pink-100 text-pink-800',
-      'Database Development': 'bg-indigo-100 text-indigo-800',
-      'Project Management': 'bg-red-100 text-red-800',
-      'default': 'bg-gray-100 text-gray-800'
+      'Software Development': 'bg-orange-100 text-orange-800',
+      'Leadership': 'bg-orange-100 text-orange-800',
+      'Communication': 'bg-orange-100 text-orange-800',
+      'Problem Solving': 'bg-orange-100 text-orange-800',
+      'Teamwork': 'bg-orange-100 text-orange-800',
+      'Database Development': 'bg-orange-100 text-orange-800',
+      'Project Management': 'bg-orange-100 text-orange-800',
+      'default': 'bg-orange-100 text-orange-800'
     };
     return colors[category as keyof typeof colors] || colors.default;
   };
@@ -36,16 +36,13 @@ const JournalEntryCard: React.FC<JournalEntryCardProps> = ({ entry, onDelete }) 
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200">
+    <div className="bg-white rounded-xl shadow-lg border border-orange-100 p-6 hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1">
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(entry.category)}`}>
+          <div className="flex items-center gap-2 mb-3">
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(entry.category)}`}>
               {entry.category}
-            </span>
-            <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-              Private
             </span>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -57,7 +54,7 @@ const JournalEntryCard: React.FC<JournalEntryCardProps> = ({ entry, onDelete }) 
         <div className="flex items-center gap-2">
           <Link
             to={`/journal/${entry.id}`}
-            className="text-blue-600 hover:text-blue-800 p-1"
+            className="text-orange-600 hover:text-orange-800 p-2 rounded-lg hover:bg-orange-50 transition-colors"
             title="View entry"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +64,7 @@ const JournalEntryCard: React.FC<JournalEntryCardProps> = ({ entry, onDelete }) 
           </Link>
           <Link
             to={`/journal/${entry.id}/edit`}
-            className="text-gray-600 hover:text-gray-800 p-1"
+            className="text-orange-600 hover:text-orange-800 p-2 rounded-lg hover:bg-orange-50 transition-colors"
             title="Edit entry"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +73,7 @@ const JournalEntryCard: React.FC<JournalEntryCardProps> = ({ entry, onDelete }) 
           </Link>
           <button
             onClick={() => onDelete(entry.id)}
-            className="text-red-600 hover:text-red-800 p-1"
+            className="text-red-600 hover:text-red-800 p-2 rounded-lg hover:bg-red-50 transition-colors"
             title="Delete entry"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,37 +85,37 @@ const JournalEntryCard: React.FC<JournalEntryCardProps> = ({ entry, onDelete }) 
 
       {/* Question */}
       <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-700 mb-1">Question:</h4>
-        <p className="text-sm text-gray-600 italic">
+        <h4 className="text-sm font-semibold text-orange-700 mb-2">Question:</h4>
+        <p className="text-sm text-orange-600 italic leading-relaxed">
           {truncateText(entry.question, 120)}
         </p>
       </div>
 
       {/* STAR Preview */}
-      <div className="space-y-2 mb-4">
+      <div className="space-y-3 mb-4">
         <div>
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Situation:</span>
-          <p className="text-sm text-gray-700 mt-1">
+          <span className="text-xs font-semibold text-orange-500 uppercase tracking-wide">Situation:</span>
+          <p className="text-sm text-orange-700 mt-1 leading-relaxed">
             {truncateText(entry.situation, 80)}
           </p>
         </div>
         <div>
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">Result:</span>
-          <p className="text-sm text-gray-700 mt-1">
+          <span className="text-xs font-semibold text-orange-500 uppercase tracking-wide">Result:</span>
+          <p className="text-sm text-orange-700 mt-1 leading-relaxed">
             {truncateText(entry.result, 80)}
           </p>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-gray-100">
+      <div className="flex justify-between items-center text-xs text-orange-500 pt-4 border-t border-orange-100">
         <div className="flex items-center gap-4">
           <span>Created {formatDate(entry.createdAt)}</span>
           <span>Reviewed {entry.timesReviewed} times</span>
         </div>
         <Link
           to={`/journal/${entry.id}`}
-          className="text-blue-600 hover:text-blue-800 font-medium"
+          className="text-orange-600 hover:text-orange-800 font-semibold transition-colors"
         >
           View Details →
         </Link>

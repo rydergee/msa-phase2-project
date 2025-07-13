@@ -55,20 +55,25 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <div className="text-center">
+          <div className="mx-auto h-16 w-16 flex items-center justify-center bg-gradient-to-r from-orange-400 to-orange-500 rounded-full shadow-lg mb-6">
+            <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-orange-800 mb-2">
             Join MockMate
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Create your account to start practicing interviews
+          <p className="text-orange-600">
+            Create your account to start practicing behavioral interviews
           </p>
         </div>
         
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6 bg-white rounded-xl shadow-lg border border-orange-100 p-8" onSubmit={handleSubmit}>
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
+            <div className="bg-red-50 border-2 border-red-200 text-red-700 px-4 py-3 rounded-lg relative">
               <span className="block sm:inline">{error}</span>
             </div>
           )}
@@ -77,7 +82,7 @@ export default function RegisterForm() {
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="firstName" className="block text-sm font-semibold text-orange-700 mb-2">
                   First Name
                 </label>
                 <input
@@ -85,14 +90,14 @@ export default function RegisterForm() {
                   name="firstName"
                   type="text"
                   required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
                   placeholder="First name"
                   value={formData.firstName}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="lastName" className="block text-sm font-semibold text-orange-700 mb-2">
                   Last Name
                 </label>
                 <input
@@ -100,7 +105,7 @@ export default function RegisterForm() {
                   name="lastName"
                   type="text"
                   required
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
                   placeholder="Last name"
                   value={formData.lastName}
                   onChange={handleChange}
@@ -110,7 +115,7 @@ export default function RegisterForm() {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-semibold text-orange-700 mb-2">
                 Email Address
               </label>
               <input
@@ -119,8 +124,8 @@ export default function RegisterForm() {
                 type="email"
                 autoComplete="email"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Email address"
+                className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
+                placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -129,27 +134,27 @@ export default function RegisterForm() {
             {/* University and Study Field */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="university" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="university" className="block text-sm font-semibold text-orange-700 mb-2">
                   University (Optional)
                 </label>
                 <input
                   id="university"
                   name="university"
                   type="text"
-                  className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
                   placeholder="Your university"
                   value={formData.university}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="studyField" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="studyField" className="block text-sm font-semibold text-orange-700 mb-2">
                   Study Field (Optional)
                 </label>
                 <select
                   id="studyField"
                   name="studyField"
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200 bg-white"
                   value={formData.studyField}
                   onChange={handleChange}
                 >
@@ -168,7 +173,7 @@ export default function RegisterForm() {
 
             {/* Password Fields */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-semibold text-orange-700 mb-2">
                 Password
               </label>
               <input
@@ -177,7 +182,7 @@ export default function RegisterForm() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
                 placeholder="Password (min 6 characters)"
                 value={formData.password}
                 onChange={handleChange}
@@ -185,7 +190,7 @@ export default function RegisterForm() {
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-orange-700 mb-2">
                 Confirm Password
               </label>
               <input
@@ -194,7 +199,7 @@ export default function RegisterForm() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full px-4 py-3 border-2 border-orange-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors duration-200"
                 placeholder="Confirm password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -202,14 +207,20 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          <div>
+          <div className="mt-6">
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`
+                group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg transition-all duration-200
+                ${loading 
+                  ? 'bg-orange-300 text-orange-500 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                }
+              `}
             >
               {loading ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-500"></div>
               ) : (
                 'Create Account'
               )}
@@ -217,11 +228,11 @@ export default function RegisterForm() {
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-orange-600">
               Already have an account?{' '}
               <Link
                 to="/login"
-                className="font-medium text-blue-600 hover:text-blue-500"
+                className="font-semibold text-orange-700 hover:text-orange-800 underline decoration-orange-300 hover:decoration-orange-500 transition-colors"
               >
                 Sign in here
               </Link>
