@@ -1,11 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using MockMate.Api.Data;
+using MockMate.Api.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Initialize database
+await app.InitializeDatabaseAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -15,6 +25,26 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Test endpoint to verify database connectivity
+app.MapGet("/api/health/database", async (AppDbContext context) =>
+{
+    try
+    {
+        await context.Database.EnsureCreatedAsync();
+        var userCount = await context.Users.CountAsync();
+        return Results.Ok(new { 
+            status = "healthy", 
+            userCount = userCount,
+            database = "SQLite",
+            message = "Database connection successful" 
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Database connection failed: {ex.Message}");
+    }
+});
 
 var summaries = new[]
 {
