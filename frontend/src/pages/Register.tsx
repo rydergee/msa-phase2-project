@@ -1,4 +1,4 @@
-function Register() {
+export default function Register() {
   return (
     <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
       <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
@@ -13,5 +13,3 @@ function Register() {
     </div>
   );
 }
-
-export default Register;

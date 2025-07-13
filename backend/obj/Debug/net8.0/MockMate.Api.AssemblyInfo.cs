@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MockMate.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee14b0aaabf2f150cbffee800d7819337b414d1f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+af3427fa1276f4cb75651c3d785b1b160929acb4")]
 [assembly: System.Reflection.AssemblyProductAttribute("MockMate.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MockMate.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,4 +1,4 @@
-function Home() {
+export default function Home() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
@@ -83,5 +83,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

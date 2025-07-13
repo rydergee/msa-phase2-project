@@ -93,6 +93,18 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173") // Vite dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Initialize database
@@ -106,6 +118,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Add CORS middleware (must be before authentication)
+app.UseCors("ReactApp");
 
 // Add authentication and authorization middleware
 app.UseAuthentication();
