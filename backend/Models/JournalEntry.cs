@@ -9,6 +9,10 @@ public class JournalEntry
     public int Id { get; set; }
 
     [Required]
+    [StringLength(500)]
+    public string Question { get; set; } = string.Empty;
+
+    [Required]
     [StringLength(200)]
     public string Title { get; set; } = string.Empty;
 
