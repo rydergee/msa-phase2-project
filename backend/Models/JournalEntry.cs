@@ -13,10 +13,6 @@ public class JournalEntry
     public string Question { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(200)]
-    public string Title { get; set; } = string.Empty;
-
-    [Required]
     [StringLength(100)]
     public string Category { get; set; } = string.Empty;
 
@@ -37,10 +33,6 @@ public class JournalEntry
     [StringLength(2000)]
     public string Result { get; set; } = string.Empty;
 
-    // Behavioral skills this entry demonstrates
-    [StringLength(500)]
-    public string Skills { get; set; } = string.Empty;
-
     // Reflection and lessons learned
     [StringLength(1000)]
     public string Reflection { get; set; } = string.Empty;
@@ -56,16 +48,9 @@ public class JournalEntry
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    // Privacy settings
-    public bool IsPrivate { get; set; } = true;
-
     // Practice tracking
     public int TimesReviewed { get; set; } = 0;
     public DateTime? LastReviewed { get; set; }
-
-    // Tags for organization
-    [StringLength(500)]
-    public string Tags { get; set; } = string.Empty;
 }
 
 public enum JournalCategory

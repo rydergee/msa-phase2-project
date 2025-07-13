@@ -9,9 +9,17 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 
+// Import Journal components
+import JournalList from './components/Journal/JournalList';
+import JournalForm from './components/Journal/JournalForm';
+import JournalDetail from './components/Journal/JournalDetail';
+
 // Create protected versions of components
 const ProtectedDashboard = withAuth(Dashboard);
 const ProtectedProfile = withAuth(Profile);
+const ProtectedJournalList = withAuth(JournalList);
+const ProtectedJournalForm = withAuth(JournalForm);
+const ProtectedJournalDetail = withAuth(JournalDetail);
 
 // Navigation component that's aware of authentication state
 function Navigation() {
@@ -37,6 +45,7 @@ function Navigation() {
           {isAuthenticated ? (
             <>
               <Link to="/dashboard" className="hover:text-blue-200">Dashboard</Link>
+              <Link to="/journal" className="hover:text-blue-200">Journal</Link>
               <Link to="/profile" className="hover:text-blue-200">Profile</Link>
               <span className="text-blue-200">Welcome, {user?.firstName}!</span>
               <button
@@ -81,6 +90,13 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<ProtectedDashboard />} />
             <Route path="/profile" element={<ProtectedProfile />} />
+            
+            {/* Journal Routes */}
+            <Route path="/journal" element={<ProtectedJournalList />} />
+            <Route path="/journal/new" element={<ProtectedJournalForm />} />
+            <Route path="/journal/edit/:id" element={<ProtectedJournalForm />} />
+            <Route path="/journal/:id" element={<ProtectedJournalDetail />} />
+            
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Layout>

@@ -206,15 +206,11 @@ public class JournalController : ControllerBase
             {
                 UserId = userId,
                 Question = createDto.Question,
-                Title = createDto.Title,
                 Situation = createDto.Situation,
                 Task = createDto.Task,
                 Action = createDto.Action,
                 Result = createDto.Result,
-                Skills = createDto.Skills,
                 Category = createDto.Category,
-                Tags = createDto.Tags ?? string.Empty,
-                IsPrivate = createDto.IsPrivate,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
@@ -254,15 +250,11 @@ public class JournalController : ControllerBase
 
             // Update properties
             existingEntry.Question = updateDto.Question;
-            existingEntry.Title = updateDto.Title;
             existingEntry.Situation = updateDto.Situation;
             existingEntry.Task = updateDto.Task;
             existingEntry.Action = updateDto.Action;
             existingEntry.Result = updateDto.Result;
-            existingEntry.Skills = updateDto.Skills;
             existingEntry.Category = updateDto.Category;
-            existingEntry.Tags = updateDto.Tags ?? string.Empty;
-            existingEntry.IsPrivate = updateDto.IsPrivate;
 
             var updatedEntry = await _journalRepository.UpdateAsync(existingEntry);
             var entryDto = MapToDto(updatedEntry);
@@ -317,18 +309,11 @@ public class JournalController : ControllerBase
         {
             Id = entry.Id,
             Question = entry.Question,
-            Title = entry.Title,
             Situation = entry.Situation,
             Task = entry.Task,
             Action = entry.Action,
             Result = entry.Result,
-            Skills = entry.Skills,
             Category = entry.Category,
-            Tags = entry.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(t => t.Trim())
-                        .Where(t => !string.IsNullOrEmpty(t))
-                        .ToList(),
-            IsPrivate = entry.IsPrivate,
             TimesReviewed = entry.TimesReviewed,
             LastReviewed = entry.LastReviewed,
             CreatedAt = entry.CreatedAt,
@@ -342,7 +327,6 @@ public class JournalController : ControllerBase
         {
             Id = entry.Id,
             Question = entry.Question,
-            Title = entry.Title,
             Category = entry.Category,
             CreatedAt = entry.CreatedAt,
             TimesReviewed = entry.TimesReviewed
@@ -355,15 +339,11 @@ public class JournalEntryDto
 {
     public int Id { get; set; }
     public string Question { get; set; } = string.Empty;
-    public string Title { get; set; } = string.Empty;
     public string Situation { get; set; } = string.Empty;
     public string Task { get; set; } = string.Empty;
     public string Action { get; set; } = string.Empty;
     public string Result { get; set; } = string.Empty;
-    public string Skills { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
-    public List<string> Tags { get; set; } = new();
-    public bool IsPrivate { get; set; }
     public int TimesReviewed { get; set; }
     public DateTime? LastReviewed { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -374,7 +354,6 @@ public class JournalEntrySummaryDto
 {
     public int Id { get; set; }
     public string Question { get; set; } = string.Empty;
-    public string Title { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public int TimesReviewed { get; set; }
@@ -387,10 +366,6 @@ public class CreateJournalEntryDto
     public string Question { get; set; } = string.Empty;
     
     [Required]
-    [MaxLength(200)]
-    public string Title { get; set; } = string.Empty;
-    
-    [Required]
     [MaxLength(1000)]
     public string Situation { get; set; } = string.Empty;
     
@@ -405,18 +380,9 @@ public class CreateJournalEntryDto
     [Required]
     [MaxLength(1000)]
     public string Result { get; set; } = string.Empty;
-    
-    [MaxLength(500)]
-    public string Skills { get; set; } = string.Empty;
-    
     [Required]
     [MaxLength(50)]
     public string Category { get; set; } = string.Empty;
-    
-    [MaxLength(200)]
-    public string? Tags { get; set; }
-    
-    public bool IsPrivate { get; set; } = true;
 }
 
 public class UpdateJournalEntryDto
@@ -426,10 +392,6 @@ public class UpdateJournalEntryDto
     public string Question { get; set; } = string.Empty;
     
     [Required]
-    [MaxLength(200)]
-    public string Title { get; set; } = string.Empty;
-    
-    [Required]
     [MaxLength(1000)]
     public string Situation { get; set; } = string.Empty;
     
@@ -445,17 +407,9 @@ public class UpdateJournalEntryDto
     [MaxLength(1000)]
     public string Result { get; set; } = string.Empty;
     
-    [MaxLength(500)]
-    public string Skills { get; set; } = string.Empty;
-    
     [Required]
     [MaxLength(50)]
     public string Category { get; set; } = string.Empty;
-    
-    [MaxLength(200)]
-    public string? Tags { get; set; }
-    
-    public bool IsPrivate { get; set; }
 }
 
 public class JournalStatsDto

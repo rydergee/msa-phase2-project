@@ -44,21 +44,6 @@ public class JournalEntryRepository : IJournalEntryRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<JournalEntry>> GetByTagsAsync(int userId, string[] tags)
-    {
-        var query = _context.JournalEntries
-            .Where(j => j.UserId == userId);
-
-        foreach (var tag in tags)
-        {
-            query = query.Where(j => j.Tags.Contains(tag));
-        }
-
-        return await query
-            .OrderByDescending(j => j.UpdatedAt)
-            .ToListAsync();
-    }
-
     public async Task<IEnumerable<JournalEntry>> GetRecentAsync(int userId, int count = 10)
     {
         return await _context.JournalEntries
@@ -74,13 +59,11 @@ public class JournalEntryRepository : IJournalEntryRepository
         
         return await _context.JournalEntries
             .Where(j => j.UserId == userId && 
-                       (j.Title.ToLower().Contains(term) ||
+                       (j.Question.ToLower().Contains(term) ||
                         j.Situation.ToLower().Contains(term) ||
                         j.Task.ToLower().Contains(term) ||
                         j.Action.ToLower().Contains(term) ||
-                        j.Result.ToLower().Contains(term) ||
-                        j.Skills.ToLower().Contains(term) ||
-                        j.Tags.ToLower().Contains(term)))
+                        j.Result.ToLower().Contains(term)))
             .OrderByDescending(j => j.UpdatedAt)
             .ToListAsync();
     }

@@ -9,7 +9,6 @@ public interface IJournalEntryRepository
     Task<JournalEntry?> GetByIdForUserAsync(int id, int userId);
     Task<IEnumerable<JournalEntry>> GetAllForUserAsync(int userId);
     Task<IEnumerable<JournalEntry>> GetByCategoryAsync(int userId, string category);
-    Task<IEnumerable<JournalEntry>> GetByTagsAsync(int userId, string[] tags);
     
     // Advanced queries
     Task<IEnumerable<JournalEntry>> GetRecentAsync(int userId, int count = 10);
