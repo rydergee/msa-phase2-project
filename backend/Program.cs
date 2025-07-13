@@ -111,68 +111,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Test endpoint to verify database connectivity
-app.MapGet("/api/health/database", async (AppDbContext context) =>
-{
-    try
-    {
-        await context.Database.EnsureCreatedAsync();
-        var userCount = await context.Users.CountAsync();
-        return Results.Ok(new { 
-            status = "healthy", 
-            userCount = userCount,
-            database = "SQLite",
-            message = "Database connection successful" 
-        });
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem($"Database connection failed: {ex.Message}");
-    }
-});
-
-// Test endpoint to verify authentication setup
-app.MapGet("/api/health/auth", () =>
-{
-    return Results.Ok(new { 
-        status = "healthy", 
-        message = "Authentication services configured",
-        timestamp = DateTime.UtcNow
-    });
-});
-
-// API documentation endpoint
-app.MapGet("/api/docs", () =>
-{
-    return Results.Ok(new
-    {
-        api = "MockMate API",
-        version = "1.0",
-        endpoints = new
-        {
-            authentication = new[]
-            {
-                "POST /api/auth/register - Register new user",
-                "POST /api/auth/login - Login user",
-                "GET /api/auth/profile - Get user profile (requires auth)",
-                "PUT /api/auth/profile - Update user profile (requires auth)",
-                "POST /api/auth/change-password - Change password (requires auth)",
-                "GET /api/auth/validate - Validate token (requires auth)",
-                "POST /api/auth/logout - Logout user (requires auth)"
-            },
-            health = new[]
-            {
-                "GET /api/health/database - Database connectivity check",
-                "GET /api/health/auth - Authentication service check",
-                "GET /api/docs - This documentation"
-            }
-        },
-        swagger = "/swagger",
-        database = "SQLite",
-        authentication = "JWT Bearer Token"
-    });
-});
-
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
