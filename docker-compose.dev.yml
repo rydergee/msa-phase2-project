@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: build
+    container_name: mockmate-api-dev
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000;https://+:5001
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/mockmate.db
+      - JwtSettings__SecretKey=ThisIsADevelopmentSecretKeyForJWTTokenGenerationThatIsLongEnough123456789
+      - JwtSettings__Issuer=MockMate-Dev
+      - JwtSettings__Audience=MockMate-Dev-Users
+      - JwtSettings__ExpiryInMinutes=1440
+    volumes:
+      - ./backend:/src/backend
+      - backend_dev_data:/app/data
+    networks:
+      - mockmate-dev-network
+    restart: unless-stopped
+    command: ["dotnet", "watch", "run", "--project", "/src/backend/MockMate.Api.csproj"]
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+      target: build
+    container_name: mockmate-frontend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:5000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - mockmate-dev-network
+    restart: unless-stopped
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
+volumes:
+  backend_dev_data:
+    driver: local
+
+networks:
+  mockmate-dev-network:
+    driver: bridge

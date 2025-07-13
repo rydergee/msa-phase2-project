@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: mockmate-api
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000;https://+:5001
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/mockmate.db
+      - JwtSettings__SecretKey=${JWT_SECRET_KEY}
+      - JwtSettings__Issuer=MockMate
+      - JwtSettings__Audience=MockMate-Users
+      - JwtSettings__ExpiryInMinutes=60
+    volumes:
+      - backend_data:/app/data
+    networks:
+      - mockmate-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: mockmate-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - mockmate-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Add a reverse proxy for production
+  nginx:
+    image: nginx:alpine
+    container_name: mockmate-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - mockmate-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  backend_data:
+    driver: local
+
+networks:
+  mockmate-network:
+    driver: bridge

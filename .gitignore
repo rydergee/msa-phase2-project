@@ -40,6 +40,11 @@ backend/obj/
 backend/bin/**
 backend/obj/**
 
+# Test Files
+MockMate.Tests/bin/
+MockMate.Tests/obj/
+MockMate.Tests/TestResults/
+
 # Frontend development files
 frontend/node_modules/
 frontend/dist/
@@ -47,6 +52,22 @@ frontend/.env.local
 frontend/.env.development.local
 frontend/.env.test.local
 frontend/.env.production.local
+
+# Deployment and environment files
+.env
+.env.production
+.env.staging
+docker-compose.override.yml
+
+# SSL certificates
+ssl/
+*.pem
+*.key
+*.crt
+
+# Deployment logs
+deploy.log
+deployment/
 
 # IDE files
 .vs/
