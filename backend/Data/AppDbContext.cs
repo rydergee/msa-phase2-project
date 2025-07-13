@@ -11,6 +11,9 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<JournalEntry> JournalEntries { get; set; }
+    public DbSet<Question> Questions { get; set; }
+    public DbSet<QuestionCategory> QuestionCategories { get; set; }
+    public DbSet<InterviewSession> InterviewSessions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +62,69 @@ public class AppDbContext : DbContext
             entity.HasIndex(e => new { e.UserId, e.CreatedAt });
         });
 
+        // Question entity configuration
+        modelBuilder.Entity<Question>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Text).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Category).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Difficulty).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.SampleAnswer).HasMaxLength(1000);
+            entity.Property(e => e.Tips).HasMaxLength(500);
+            entity.Property(e => e.Tags).HasMaxLength(200);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetime('now')");
+
+            // Indexes for performance
+            entity.HasIndex(e => e.Category);
+            entity.HasIndex(e => e.Difficulty);
+            entity.HasIndex(e => e.IsActive);
+        });
+
+        // QuestionCategory entity configuration
+        modelBuilder.Entity<QuestionCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(200);
+            entity.Property(e => e.Color).HasMaxLength(7).HasDefaultValue("#3B82F6");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+
+            entity.HasIndex(e => e.Name).IsUnique();
+            entity.HasIndex(e => e.SortOrder);
+        });
+
+        // InterviewSession entity configuration
+        modelBuilder.Entity<InterviewSession>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.UserAnswer).HasMaxLength(2000);
+            entity.Property(e => e.Notes).HasMaxLength(1000);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetime('now')");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetime('now')");
+
+            // Foreign key relationships
+            entity.HasOne(e => e.User)
+                  .WithMany()
+                  .HasForeignKey(e => e.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Question)
+                  .WithMany(q => q.InterviewSessions)
+                  .HasForeignKey(e => e.QuestionId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // Indexes for performance
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => new { e.UserId, e.QuestionId });
+            entity.HasIndex(e => new { e.UserId, e.CreatedAt });
+        });
+
+        // Seed data
+        modelBuilder.Entity<QuestionCategory>().HasData(SeedData.Questions.Categories);
+        modelBuilder.Entity<Question>().HasData(SeedData.Questions.BehavioralQuestions);
+
         // Additional entity configurations will be added in future tasks
         // ConfigureJournalEntry(modelBuilder);
         // ConfigureQuestion(modelBuilder);
@@ -92,6 +158,14 @@ public class AppDbContext : DbContext
             else if (entry.Entity is JournalEntry journalEntry)
             {
                 journalEntry.UpdatedAt = DateTime.UtcNow;
+            }
+            else if (entry.Entity is Question question)
+            {
+                question.UpdatedAt = DateTime.UtcNow;
+            }
+            else if (entry.Entity is InterviewSession session)
+            {
+                session.UpdatedAt = DateTime.UtcNow;
             }
         }
     }
