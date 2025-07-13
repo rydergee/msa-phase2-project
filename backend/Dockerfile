@@ -1,15 +1,13 @@
 # Backend Dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 5000
-EXPOSE 5001
+EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["backend/MockMate.Api.csproj", "backend/"]
-RUN dotnet restore "backend/MockMate.Api.csproj"
-COPY backend/ backend/
-WORKDIR "/src/backend"
+COPY ["MockMate.Api.csproj", "./"]
+RUN dotnet restore "MockMate.Api.csproj"
+COPY . .
 RUN dotnet build "MockMate.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -22,6 +20,9 @@ COPY --from=publish /app/publish .
 # Create a non-root user
 RUN addgroup --system --gid 1001 mockmate && \
     adduser --system --uid 1001 --ingroup mockmate mockmate
+
+# Change ownership of the app directory
+RUN chown -R mockmate:mockmate /app
 USER mockmate
 
 ENTRYPOINT ["dotnet", "MockMate.Api.dll"]

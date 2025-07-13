@@ -79,3 +79,6 @@ deployment/
 # OS files
 .DS_Store
 Thumbs.db
+GOOGLE-CLOUD-SETUP.md
+deploy-cloudrun.ps1
+deploy-cloudrun.sh
