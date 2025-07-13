@@ -36,18 +36,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<JournalEntry>(entity =>
         {
             entity.HasKey(e => e.Id);
-            entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Category).IsRequired().HasMaxLength(100);
             entity.Property(e => e.Situation).IsRequired().HasMaxLength(2000);
             entity.Property(e => e.Task).IsRequired().HasMaxLength(2000);
             entity.Property(e => e.Action).IsRequired().HasMaxLength(2000);
             entity.Property(e => e.Result).IsRequired().HasMaxLength(2000);
-            entity.Property(e => e.Skills).HasMaxLength(500);
             entity.Property(e => e.Reflection).HasMaxLength(1000);
-            entity.Property(e => e.Tags).HasMaxLength(500);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("datetime('now')");
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("datetime('now')");
-            entity.Property(e => e.IsPrivate).HasDefaultValue(true);
             entity.Property(e => e.TimesReviewed).HasDefaultValue(0);
 
             // Foreign key relationship
